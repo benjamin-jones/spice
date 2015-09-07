@@ -1,14 +1,10 @@
 package spice.logging;
 
-import javax.sound.midi.SysexMessage;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-/**
- * Created by xooxies on 3/14/14.
- */
 public class ConsoleLogger implements Logger {
 
     private Queue<String> messageLog;
