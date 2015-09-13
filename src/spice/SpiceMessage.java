@@ -21,5 +21,5 @@ package spice;
  * @author benjamin-jones
  */
 public enum SpiceMessage {
-    SHUTDOWN, RESTART, CONFIGURE
+    SHUTDOWN, RESTART, CONFIGURE, TOCK
 }

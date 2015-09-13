@@ -11,7 +11,8 @@ public class LoggerThread extends Thread implements SpiceThread {
 
     private Logger currentLog;
     private boolean running;
-    private LoggerCallback loggerCallback;
+    private boolean stopped = false;
+    private final LoggerCallback loggerCallback;
     
     public BlockingQueue<String> queue;
 
@@ -22,13 +23,24 @@ public class LoggerThread extends Thread implements SpiceThread {
         router.registerInterface("logger", loggerCallback);        
     }
     
+    @Override
     public void shutdown() {
+        running = false;
+        
+        while (!stopped) {
+            try {
+                sleep(1);
+            } catch (InterruptedException ex) {
+                java.util.logging.Logger.getLogger(LoggerThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         if (currentLog.hasMessages()) {
             currentLog.processLog();
         }
-        running = false;
     }
 
+    @Override
     public void run() {
         currentLog = new ConsoleLogger();
 
@@ -54,6 +66,7 @@ public class LoggerThread extends Thread implements SpiceThread {
                 java.util.logging.Logger.getLogger(EventThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        stopped = true;
     }
 
 }

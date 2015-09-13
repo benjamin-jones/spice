@@ -29,22 +29,24 @@ public class EventThread extends Thread implements SpiceThread {
     
     private boolean running = true;
     
+    @Override
     public void run() {
         MessageRouter router = MessageRouter.getInstance();
         while (running) {
             try {
-                sleep(5000);
+                sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(EventThread.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             router.notifyInterface("logger", "EventThread is sending a message...");
-            router.notifyInterface("root", SpiceMessage.SHUTDOWN);
+            router.notifyInterface("root", SpiceMessage.TOCK);
             
         }
        
     }
     
+    @Override
     public void shutdown() {
         running = false;
     }
